@@ -53,8 +53,6 @@ public class CameraControl implements KeyPressed, KeyReleased {
 		
 		mapRenderer.setView(camera);
 		mapRenderer.render();
-		
-		System.out.println(camera.position.toString());
 	}
 	
 	@Override

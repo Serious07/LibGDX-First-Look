@@ -15,8 +15,6 @@ public class ConvertCoords {
 	    
 	    Vector2Int result = new Vector2Int(worldCoords);
 	    
-	    System.out.println("x: " + result.x + " y: " + result.y);
-	    
 	    return result;
 	}
 	

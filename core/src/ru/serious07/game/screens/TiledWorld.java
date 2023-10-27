@@ -99,8 +99,10 @@ public class TiledWorld extends ScreenAdapter implements MouseButtonPressed {
 		game.spriteBatchHUD.setProjectionMatrix(game.hudCamera.combined);
 		game.spriteBatchHUD.begin();
 		game.font.draw(game.spriteBatchHUD, "FPS=" + Gdx.graphics.getFramesPerSecond(), 10, game.hudCamera.viewportHeight - 10);
-		game.font.draw(game.spriteBatchHUD, "x: " + game.mouseAndKeyboardInput.mouseXWorldPos + " y: " + 
+		game.font.draw(game.spriteBatchHUD, "Cursor World x: " + game.mouseAndKeyboardInput.mouseXWorldPos + " y: " + 
 						game.mouseAndKeyboardInput.mouseYWorldPos, 10, game.hudCamera.viewportHeight - 30);
+		game.font.draw(game.spriteBatchHUD, "Camera Pos x: " + game.gameCamera.position.x + " y: " + 
+				game.gameCamera.position.y, 10, game.hudCamera.viewportHeight - 50);
 		game.spriteBatchHUD.end();
 	}
 	
