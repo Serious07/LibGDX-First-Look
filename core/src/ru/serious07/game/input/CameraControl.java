@@ -3,16 +3,13 @@ package ru.serious07.game.input;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.maps.MapRenderer;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.utils.viewport.Viewport;
 
 import ru.serious07.game.innterfaces.listners.input.keyboard.KeyPressed;
 import ru.serious07.game.innterfaces.listners.input.keyboard.KeyReleased;
 
 public class CameraControl implements KeyPressed, KeyReleased {
 	private OrthographicCamera camera;
-	private Viewport viewport;
 	
 	private MapRenderer mapRenderer;
 	private float speed;
@@ -22,15 +19,16 @@ public class CameraControl implements KeyPressed, KeyReleased {
 	private boolean isLeftKeyPressed = false;
 	private boolean isRightKeyPressed = false;
 	
+	private Vector3 cameraDirection;
+	
 	public CameraControl(OrthographicCamera gameCamera, float speed, MapRenderer mapRenderer) {
 		camera = gameCamera;
-		this.viewport = viewport;
 		this.speed = speed;
 		this.mapRenderer = mapRenderer;
 	}
 	
 	public void update(float dt) {
-		Vector3 cameraDirection = new Vector3(0, 0, 0);
+		cameraDirection = new Vector3(0, 0, 0);
 		
 		if(isUpKeyPressed) {
 			cameraDirection.add(new Vector3(0, speed * dt, 0));
@@ -49,10 +47,6 @@ public class CameraControl implements KeyPressed, KeyReleased {
 		}
 		
 		camera.position.add(cameraDirection);
-		camera.update();
-		
-		mapRenderer.setView(camera);
-		mapRenderer.render();
 	}
 	
 	@Override

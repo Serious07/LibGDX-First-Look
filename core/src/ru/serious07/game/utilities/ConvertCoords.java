@@ -7,8 +7,8 @@ public class ConvertCoords {
 	public static Vector2Int screenToTileMap(OrthographicCamera gameCamera, Vector3 point, 
 												int tileWidth, int tileHeight, Vector2Int gameSize) {
 	    Vector3 worldCoords = gameCamera.unproject(point);
-	    worldCoords.x += gameSize.x / 2;
-	    worldCoords.y += gameSize.y / 2;
+	    //worldCoords.x += gameSize.x / 2;
+	    //worldCoords.y += gameSize.y / 2;
 	    
 	    worldCoords.x /= tileWidth;
 	    worldCoords.y /= tileHeight;

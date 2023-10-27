@@ -3,6 +3,7 @@ package ru.serious07.game.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ScreenAdapter;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.MapLayers;
@@ -12,6 +13,7 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.ScreenUtils;
 
 import ru.serious07.game.Main;
@@ -41,19 +43,23 @@ public class TiledWorld extends ScreenAdapter implements MouseButtonPressed {
 	
 	private CameraControl cameraControl;
 	
+	private OrthographicCamera camera;
+	
 	public static final int tileWidth = 32;
 	public static final int tileHeight = 32;
 	
 	public TiledWorld(Main main) {
 		game = main;
+		
+		camera = game.gameCamera;
 	}
 
 	@Override
 	public void show() {
 		allTiles = new Texture(Gdx.files.internal("sprites/tiles.png"));
-		textureGrass = new TextureRegion(allTiles, tileWidth * 0, tileHeight * 0, tileWidth, tileHeight);
-		textureDirt = new TextureRegion(allTiles, tileWidth * 1, tileHeight * 0, tileWidth, tileHeight);
-		textureStone = new TextureRegion(allTiles, tileWidth * 2, tileHeight * 0, tileWidth, tileHeight);
+		textureGrass = new TextureRegion(allTiles, tileWidth * 0 + 2, tileHeight * 0 + 2, tileWidth, tileHeight);
+		textureDirt = new TextureRegion(allTiles, tileWidth * 1 + 6, tileHeight * 0 + 2, tileWidth, tileHeight);
+		textureStone = new TextureRegion(allTiles, tileWidth * 2 + 10, tileHeight * 0 + 2, tileWidth, tileHeight);
 		
 		tiledMap = new TiledMap();
 		
@@ -78,21 +84,24 @@ public class TiledWorld extends ScreenAdapter implements MouseButtonPressed {
 		mapRenderer = new OrthogonalTiledMapRenderer(tiledMap);
 		
 		// Camera controls
-		cameraControl = new CameraControl(game.gameCamera, 10, mapRenderer);
+		cameraControl = new CameraControl(game.gameCamera, 1000, mapRenderer);
 		game.mouseAndKeyboardInput.AddListenerKeyboardKeyPressed(cameraControl);
 		game.mouseAndKeyboardInput.AddListenerKeyboardKeyRelesed(cameraControl);
+		
+		camera.position.set(new Vector3(game.gameSize.x / 2, (game.gameSize.y / 2) * 1, 0)); 
 	}
 	
 	@Override
 	public void render(float delta) {
 		ScreenUtils.clear(165f/256f, 194f/256f, 209f/256f, 1);
 		
+		// Game
 		cameraControl.update(delta);
 		
-		// Game
-		game.gameCamera.update();
-		mapRenderer.setView(game.gameCamera);
+		mapRenderer.setView(camera.combined, 0, 0, 320, 180);
 		mapRenderer.render();
+		
+		camera.update();
 		
 		// HUD
 		game.hudCamera.update();
